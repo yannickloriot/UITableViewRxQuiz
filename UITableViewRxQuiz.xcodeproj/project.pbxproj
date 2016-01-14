@@ -12,6 +12,9 @@
 		CEFA4D711C48088000F47834 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEFA4D6F1C48088000F47834 /* Main.storyboard */; };
 		CEFA4D731C48088000F47834 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEFA4D721C48088000F47834 /* Assets.xcassets */; };
 		CEFA4D761C48088000F47834 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEFA4D741C48088000F47834 /* LaunchScreen.storyboard */; };
+		CEFA4D851C480EF600F47834 /* ChoiceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFA4D831C480EF600F47834 /* ChoiceModel.swift */; };
+		CEFA4D861C480EF600F47834 /* QuestionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFA4D841C480EF600F47834 /* QuestionModel.swift */; };
+		CEFA4D881C480F6100F47834 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFA4D871C480F6100F47834 /* Data.swift */; };
 		DBB063C159686BCBA0D15F55 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A88866B693915F300739E55B /* Pods.framework */; };
 /* End PBXBuildFile section */
 
@@ -25,6 +28,9 @@
 		CEFA4D721C48088000F47834 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CEFA4D751C48088000F47834 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CEFA4D771C48088000F47834 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CEFA4D831C480EF600F47834 /* ChoiceModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChoiceModel.swift; sourceTree = "<group>"; };
+		CEFA4D841C480EF600F47834 /* QuestionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionModel.swift; sourceTree = "<group>"; };
+		CEFA4D871C480F6100F47834 /* Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		E97468F4391940F50F196C9D /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -69,7 +75,9 @@
 		CEFA4D6A1C48088000F47834 /* UITableViewRxQuiz */ = {
 			isa = PBXGroup;
 			children = (
+				CEFA4D821C480EF600F47834 /* models */,
 				CEFA4D6B1C48088000F47834 /* AppDelegate.swift */,
+				CEFA4D871C480F6100F47834 /* Data.swift */,
 				CEFA4D6D1C48088000F47834 /* ViewController.swift */,
 				CEFA4D6F1C48088000F47834 /* Main.storyboard */,
 				CEFA4D721C48088000F47834 /* Assets.xcassets */,
@@ -77,6 +85,15 @@
 				CEFA4D771C48088000F47834 /* Info.plist */,
 			);
 			path = UITableViewRxQuiz;
+			sourceTree = "<group>";
+		};
+		CEFA4D821C480EF600F47834 /* models */ = {
+			isa = PBXGroup;
+			children = (
+				CEFA4D831C480EF600F47834 /* ChoiceModel.swift */,
+				CEFA4D841C480EF600F47834 /* QuestionModel.swift */,
+			);
+			path = models;
 			sourceTree = "<group>";
 		};
 		FA0994D2C9DDA72A18915C4E /* Pods */ = {
@@ -210,8 +227,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEFA4D851C480EF600F47834 /* ChoiceModel.swift in Sources */,
+				CEFA4D881C480F6100F47834 /* Data.swift in Sources */,
 				CEFA4D6E1C48088000F47834 /* ViewController.swift in Sources */,
 				CEFA4D6C1C48088000F47834 /* AppDelegate.swift in Sources */,
+				CEFA4D861C480EF600F47834 /* QuestionModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

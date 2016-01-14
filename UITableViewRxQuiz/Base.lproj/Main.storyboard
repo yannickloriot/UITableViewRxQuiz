@@ -38,7 +38,7 @@
                                 </constraints>
                                 <items>
                                     <navigationItem title="Title" id="NeX-mD-eew">
-                                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="EPB-ap-jmU"/>
+                                        <barButtonItem key="rightBarButtonItem" title="Next" id="EPB-ap-jmU"/>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -67,7 +67,7 @@
                     <connections>
                         <outlet property="choiceTableView" destination="1zn-Zd-E0N" id="D1Z-7U-SQT"/>
                         <outlet property="navigationBar" destination="hrq-2L-9H2" id="dts-Yv-Bul"/>
-                        <outlet property="refreshButton" destination="EPB-ap-jmU" id="A04-tH-uX8"/>
+                        <outlet property="nextQuestionButton" destination="EPB-ap-jmU" id="ro3-Uz-Rlb"/>
                         <outlet property="validButton" destination="S8P-Jj-eOk" id="Q6L-Nf-TJd"/>
                     </connections>
                 </viewController>
