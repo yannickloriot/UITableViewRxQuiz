@@ -14,13 +14,14 @@ class ViewController: UIViewController, UITableViewDelegate {
   @IBOutlet weak var navigationBar: UINavigationBar!
   @IBOutlet weak var nextQuestionButton: UIBarButtonItem!
   @IBOutlet weak var choiceTableView: UITableView!
-  @IBOutlet weak var validButton: UIButton!
+  @IBOutlet weak var submitButton: UIButton!
 
   let questions = Data.dummyQuestions
 
   let currentQuestionIndex                      = Variable(0)
   let currentQuestion: Variable<QuestionModel?> = Variable(nil)
   let selectedItems: Variable<[ChoiceModel]>    = Variable([])
+  let displayAnswers: Variable<Bool>            = Variable(false)
 
   // A dispose bag to be sure that all element added to the bag is deallocated properly.
   let disposeBag = DisposeBag()
@@ -28,17 +29,20 @@ class ViewController: UIViewController, UITableViewDelegate {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    setupCurrentQuestionIndexObserver()
-    setupCurrentQuestionObserver()
-    setupNextQuestionButtonObserver()
-    setupChoiceTableViewObserver()
-    setupValidButtonObserver()
-
     // Sets self as tableview delegate
 
     choiceTableView
       .rx_setDelegate(self)
       .addDisposableTo(disposeBag)
+
+    // Setup the observers
+
+    setupCurrentQuestionIndexObserver()
+    setupCurrentQuestionObserver()
+    setupNextQuestionButtonObserver()
+    setupChoiceTableViewObserver()
+    setupSubmitButtonObserver()
+    setupDisplayAnswersObserver()
   }
 
   // MARK: - Private Methods
@@ -46,9 +50,7 @@ class ViewController: UIViewController, UITableViewDelegate {
   private func setupCurrentQuestionIndexObserver() {
     currentQuestionIndex
       .asObservable()
-      .map({ index in
-        return index % self.questions.count
-      })
+      .map { $0 % self.questions.count }
       .subscribeNext { index -> Void in
         self.currentQuestion.value = self.questions[index]
       }
@@ -68,6 +70,7 @@ class ViewController: UIViewController, UITableViewDelegate {
     nextQuestionButton
       .rx_tap
       .subscribeNext {
+        self.displayAnswers.value       = false
         self.currentQuestionIndex.value += 1
       }
       .addDisposableTo(disposeBag)
@@ -76,10 +79,24 @@ class ViewController: UIViewController, UITableViewDelegate {
   private func setupChoiceTableViewObserver() {
     currentQuestion
       .asObservable()
-      .filter({ $0 != nil })
-      .map({ $0!.choices })
-      .bindTo(choiceTableView.rx_itemsWithCellIdentifier("ChoiceCell", cellType: UITableViewCell.self)) { (row, element, cell) in
-        cell.textLabel?.text = element.title
+      .filter { $0 != nil }
+      .map { $0!.choices }
+      .bindTo(choiceTableView.rx_itemsWithCellIdentifier("ChoiceCell", cellType: ChoiceCell.self)) { (row, element, cell) in
+        cell.choiceModel = element
+      }
+      .addDisposableTo(disposeBag)
+
+    choiceTableView
+      .rx_itemSelected
+      .subscribeNext { indexPath in
+        self.choiceTableView.cellForRowAtIndexPath(indexPath)?.selected = true
+      }
+      .addDisposableTo(disposeBag)
+
+    choiceTableView
+      .rx_itemDeselected
+      .subscribeNext { indexPath in
+        self.choiceTableView.cellForRowAtIndexPath(indexPath)?.selected = false
       }
       .addDisposableTo(disposeBag)
 
@@ -98,20 +115,45 @@ class ViewController: UIViewController, UITableViewDelegate {
       .addDisposableTo(disposeBag)
   }
 
-  private func setupValidButtonObserver() {
-    selectedItems
+  private func setupSubmitButtonObserver() {
+    Observable
+      .combineLatest(selectedItems.asObservable(), displayAnswers.asObservable()) { (s, d) in
+        return s.count > 0 && !d
+      }
+      .bindTo(submitButton.rx_enabled)
+      .addDisposableTo(disposeBag)
+
+    submitButton
+      .rx_tap
+      .subscribeNext {
+        self.displayAnswers.value = true
+      }
+      .addDisposableTo(disposeBag)
+  }
+
+  private func setupDisplayAnswersObserver() {
+    displayAnswers
       .asObservable()
-      .map { $0.count > 0 }
-      .bindTo(validButton.rx_enabled)
+      .subscribeNext { displayAnswers in
+        for cell in self.choiceTableView.visibleCells as! [ChoiceCell] {
+          cell.displayAnswers = displayAnswers
+        }
+      }
       .addDisposableTo(disposeBag)
   }
 
   // MARK: - UITableView Delegate Methods
 
-  func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-    cell.selectionStyle  = .None
+  func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
+    return displayAnswers.value ? nil : indexPath
+  }
 
-    cell.backgroundColor = .clearColor()
+  func tableView(tableView: UITableView, willDeselectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
+    return displayAnswers.value ? nil : indexPath
+  }
+
+  func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    cell.selectionStyle = .None
   }
 
   func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {

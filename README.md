@@ -2,6 +2,10 @@
 
 This application is an example to illustrate the following blog post, in order to explain how you can use RxSwift with `UITableView`.
 
+*Icon made by [Google](http://www.flaticon.com/authors/google) from [flaticon.com](http://flaticon.com)*
+
+## Usage
+
 To compile the project you need Cocoapods.
 
 Install Cocoapods if not already available:

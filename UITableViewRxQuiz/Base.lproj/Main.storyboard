@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -21,13 +22,50 @@
                                 <rect key="frame" x="0.0" y="64" width="600" height="490"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChoiceCell" id="u2Y-12-sX2">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChoiceCell" id="u2Y-12-sX2" customClass="ChoiceCell" customModule="UITableViewRxQuiz" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="600" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="u2Y-12-sX2" id="15I-Yu-syd">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="59.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="checkbox" translatesAutoresizingMaskIntoConstraints="NO" id="fc2-8R-KRT">
+                                                    <rect key="frame" x="548.5" y="8" width="43.5" height="43.5"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="fc2-8R-KRT" secondAttribute="height" multiplier="1:1" id="PIg-a3-Hyk"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="checkmark" translatesAutoresizingMaskIntoConstraints="NO" id="yIE-r4-ehy">
+                                                    <rect key="frame" x="548.5" y="8" width="43.5" height="43.5"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="yIE-r4-ehy" secondAttribute="height" multiplier="1:1" id="Irc-nb-f0g"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RZV-qI-3U0">
+                                                    <rect key="frame" x="8" y="8" width="532.5" height="43.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="RZV-qI-3U0" firstAttribute="top" secondItem="15I-Yu-syd" secondAttribute="top" constant="8" id="1Gf-GI-Hf3"/>
+                                                <constraint firstAttribute="bottom" secondItem="fc2-8R-KRT" secondAttribute="bottom" constant="8" id="4m8-ca-xKk"/>
+                                                <constraint firstAttribute="trailing" secondItem="fc2-8R-KRT" secondAttribute="trailing" constant="8" id="92T-Vo-eYr"/>
+                                                <constraint firstAttribute="bottom" secondItem="RZV-qI-3U0" secondAttribute="bottom" constant="8" id="GK5-Py-n63"/>
+                                                <constraint firstItem="fc2-8R-KRT" firstAttribute="top" secondItem="15I-Yu-syd" secondAttribute="top" constant="8" id="OLP-oF-MFO"/>
+                                                <constraint firstItem="RZV-qI-3U0" firstAttribute="leading" secondItem="15I-Yu-syd" secondAttribute="leading" constant="8" id="b5m-jp-lYh"/>
+                                                <constraint firstItem="yIE-r4-ehy" firstAttribute="leading" secondItem="RZV-qI-3U0" secondAttribute="trailing" constant="8" id="jDr-t5-MXJ"/>
+                                                <constraint firstAttribute="trailing" secondItem="yIE-r4-ehy" secondAttribute="trailing" constant="8" id="p82-Ae-Ryb"/>
+                                                <constraint firstItem="yIE-r4-ehy" firstAttribute="top" secondItem="15I-Yu-syd" secondAttribute="top" constant="8" id="wuM-Mr-UH8"/>
+                                                <constraint firstAttribute="bottom" secondItem="yIE-r4-ehy" secondAttribute="bottom" constant="8" id="yfK-xX-9tz"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="checkboxImageView" destination="fc2-8R-KRT" id="4Y1-h0-TXQ"/>
+                                            <outlet property="checkmarkImageView" destination="yIE-r4-ehy" id="jqh-fg-aNb"/>
+                                            <outlet property="titleLabel" destination="RZV-qI-3U0" id="EUL-6d-Pbv"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -68,7 +106,7 @@
                         <outlet property="choiceTableView" destination="1zn-Zd-E0N" id="D1Z-7U-SQT"/>
                         <outlet property="navigationBar" destination="hrq-2L-9H2" id="dts-Yv-Bul"/>
                         <outlet property="nextQuestionButton" destination="EPB-ap-jmU" id="ro3-Uz-Rlb"/>
-                        <outlet property="validButton" destination="S8P-Jj-eOk" id="Q6L-Nf-TJd"/>
+                        <outlet property="submitButton" destination="S8P-Jj-eOk" id="8Vn-2P-7fK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -76,4 +114,8 @@
             <point key="canvasLocation" x="305" y="371"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="checkbox" width="64" height="64"/>
+        <image name="checkmark" width="64" height="64"/>
+    </resources>
 </document>
