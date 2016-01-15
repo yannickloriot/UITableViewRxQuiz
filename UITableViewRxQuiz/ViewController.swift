@@ -18,10 +18,10 @@ class ViewController: UIViewController, UITableViewDelegate {
 
   let questions = Data.dummyQuestions
 
-  let currentQuestionIndex                      = Variable(0)
-  let currentQuestion: Variable<QuestionModel?> = Variable(nil)
-  let selectedItems: Variable<[ChoiceModel]>    = Variable([])
-  let displayAnswers: Variable<Bool>            = Variable(false)
+  let currentQuestionIndex                        = Variable(0)
+  let currentQuestion: Variable<QuestionModel?>   = Variable(nil)
+  let selectedIndexPaths: Variable<[NSIndexPath]> = Variable([])
+  let displayAnswers: Variable<Bool>              = Variable(false)
 
   // A dispose bag to be sure that all element added to the bag is deallocated properly.
   let disposeBag = DisposeBag()
@@ -89,6 +89,7 @@ class ViewController: UIViewController, UITableViewDelegate {
     choiceTableView
       .rx_itemSelected
       .subscribeNext { indexPath in
+        self.selectedIndexPaths.value.append(indexPath)
         self.choiceTableView.cellForRowAtIndexPath(indexPath)?.selected = true
       }
       .addDisposableTo(disposeBag)
@@ -96,28 +97,15 @@ class ViewController: UIViewController, UITableViewDelegate {
     choiceTableView
       .rx_itemDeselected
       .subscribeNext { indexPath in
+        self.selectedIndexPaths.value = self.selectedIndexPaths.value.filter { $0 != indexPath }
         self.choiceTableView.cellForRowAtIndexPath(indexPath)?.selected = false
-      }
-      .addDisposableTo(disposeBag)
-
-    choiceTableView
-      .rx_modelSelected(ChoiceModel)
-      .subscribeNext { value in
-        self.selectedItems.value.append(value)
-      }
-      .addDisposableTo(disposeBag)
-
-    choiceTableView
-      .rx_modelDeselected(ChoiceModel)
-      .subscribeNext { value in
-        self.selectedItems.value = self.selectedItems.value.filter { $0 != value }
       }
       .addDisposableTo(disposeBag)
   }
 
   private func setupSubmitButtonObserver() {
     Observable
-      .combineLatest(selectedItems.asObservable(), displayAnswers.asObservable()) { (s, d) in
+      .combineLatest(selectedIndexPaths.asObservable(), displayAnswers.asObservable()) { (s, d) in
         return s.count > 0 && !d
       }
       .bindTo(submitButton.rx_enabled)

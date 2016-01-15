@@ -8,11 +8,7 @@
 
 import Foundation
 
-struct ChoiceModel: Equatable {
+struct ChoiceModel {
   let title: String
   let valid: Bool
-}
-
-func ==(lhs: ChoiceModel, rhs: ChoiceModel) -> Bool {
-  return lhs.title == rhs.title && lhs.valid == rhs.valid
 }
