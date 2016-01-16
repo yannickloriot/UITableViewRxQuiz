@@ -16,7 +16,7 @@ class ViewController: UIViewController, UITableViewDelegate {
   @IBOutlet weak var choiceTableView: UITableView!
   @IBOutlet weak var submitButton: UIButton!
 
-  let questions = Data.dummyQuestions
+  let questions = Quiz.questions
 
   let currentQuestionIndex                        = Variable(0)
   let currentQuestion: Variable<QuestionModel?>   = Variable(nil)

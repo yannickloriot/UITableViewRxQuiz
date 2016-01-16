@@ -1,5 +1,5 @@
 //
-//  Data.swift
+//  Quiz.swift
 //  UITableViewRxQuiz
 //
 //  Created by Yannick LORIOT on 14/01/16.
@@ -8,12 +8,12 @@
 
 import Foundation
 
-final class Data {
-  static var dummyQuestions: [QuestionModel] = {
+final class Quiz {
+  static var questions: [QuestionModel] = {
     // Question 1
     let c1 = ChoiceModel(title: "A powerful library", valid: true)
     let c2 = ChoiceModel(title: "A brush", valid: false)
-    let c3 = ChoiceModel(title: "A swift implementation of ReativeX", valid: true)
+    let c3 = ChoiceModel(title: "A swift implementation of ReactiveX", valid: true)
     let c4 = ChoiceModel(title: "The Observer pattern on steroids", valid: true)
     let q1 = QuestionModel(title: "What is RxSwift?", choices: [c1, c2, c3, c4])
 
