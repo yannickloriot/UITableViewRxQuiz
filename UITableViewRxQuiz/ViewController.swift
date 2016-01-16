@@ -16,8 +16,6 @@ class ViewController: UIViewController, UITableViewDelegate {
   @IBOutlet weak var choiceTableView: UITableView!
   @IBOutlet weak var submitButton: UIButton!
 
-  let questions = Quiz.questions
-
   let currentQuestionIndex                        = Variable(0)
   let currentQuestion: Variable<QuestionModel?>   = Variable(nil)
   let selectedIndexPaths: Variable<[NSIndexPath]> = Variable([])
@@ -30,13 +28,11 @@ class ViewController: UIViewController, UITableViewDelegate {
     super.viewDidLoad()
 
     // Sets self as tableview delegate
-
     choiceTableView
       .rx_setDelegate(self)
       .addDisposableTo(disposeBag)
 
     // Setup the observers
-
     setupCurrentQuestionIndexObserver()
     setupCurrentQuestionObserver()
     setupNextQuestionButtonObserver()
@@ -50,9 +46,9 @@ class ViewController: UIViewController, UITableViewDelegate {
   private func setupCurrentQuestionIndexObserver() {
     currentQuestionIndex
       .asObservable()
-      .map { $0 % self.questions.count }
+      .map { $0 % Quiz.questions.count }
       .subscribeNext { index -> Void in
-        self.currentQuestion.value = self.questions[index]
+        self.currentQuestion.value = Quiz.questions[index]
       }
       .addDisposableTo(disposeBag)
   }
@@ -62,6 +58,15 @@ class ViewController: UIViewController, UITableViewDelegate {
       .asObservable()
       .subscribeNext { question in
         self.navigationBar.topItem?.title = question?.title
+      }
+      .addDisposableTo(disposeBag)
+
+    currentQuestion
+      .asObservable()
+      .filter { $0 != nil }
+      .map { $0!.choices }
+      .bindTo(choiceTableView.rx_itemsWithCellIdentifier("ChoiceCell", cellType: ChoiceCell.self)) { (row, element, cell) in
+        cell.choiceModel = element
       }
       .addDisposableTo(disposeBag)
   }
@@ -77,15 +82,6 @@ class ViewController: UIViewController, UITableViewDelegate {
   }
 
   private func setupChoiceTableViewObserver() {
-    currentQuestion
-      .asObservable()
-      .filter { $0 != nil }
-      .map { $0!.choices }
-      .bindTo(choiceTableView.rx_itemsWithCellIdentifier("ChoiceCell", cellType: ChoiceCell.self)) { (row, element, cell) in
-        cell.choiceModel = element
-      }
-      .addDisposableTo(disposeBag)
-
     choiceTableView
       .rx_itemSelected
       .subscribeNext { indexPath in
