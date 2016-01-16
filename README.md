@@ -1,6 +1,6 @@
 # UITableViewRxQuiz
 
-This application is an example to illustrate the following blog post, in order to explain how you can use RxSwift with `UITableView`.
+This application is an example to illustrate the following [blog post](http://yannickloriot.com/2016/01/make-uitableview-reactive-with-rxswift/), in order to explain how to make your `UITableView` more reactive with RxSwift.
 
 *Icon made by [Google](http://www.flaticon.com/authors/google) from [flaticon.com](http://flaticon.com)*
 
