@@ -4,6 +4,12 @@ This application is an example to illustrate the following [blog post](http://ya
 
 *Icon made by [Google](http://www.flaticon.com/authors/google) from [flaticon.com](http://flaticon.com)*
 
+## Requirements
+
+- Xcode 7.2
+- Swift 2.1
+- iOS 8 or over
+
 ## Usage
 
 To compile the project you need Cocoapods.
